@@ -1,0 +1,30 @@
+
+ - `hrisk' schreiben: Inspiration: mboost:::cvrisk
+    auf R-forge.R-project.org/projects/mboost/
+
+        
+    - better output, plots (3d,levelplot)
+
+    - R CMD check (docu, NAMESPACE, etc)
+
+    - bodyfat example nachvollziehen
+
+data("bodyfat", package = "mboost")
+library("hgam")
+library("mgcv")
+
+Rprof("hgam")
+mod <- hgam(DEXfat ~ age + waistcirc + hipcirc, 
+    data = bodyfat, model = LinReg(), lambda1 = 12.7, lambda2 = 10)
+Rprof(NULL)
+
+hmod <- hrisk(mod)
+
+fm <- as.formula(paste("DEXfat ~ ",
+    paste("s(", names(bodyfat)[-2][1:3], ")", collapse = "+"), sep = ""))
+mod2 <- gam(fm, data = bodyfat)
+
+library("mboost")
+
+mod3 <- gamboost(DEXfat ~ age + waistcirc + hipcirc, data = bodyfat)
+cv3 <- cvrisk(mod3)
