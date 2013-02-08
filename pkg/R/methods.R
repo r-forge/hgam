@@ -279,4 +279,4 @@ print.hrisk <- function(h, ...) {
 }
 
 
-plot(mod, multidim = T, zlab = "test2", col = "lightblue", theta=20)
+#plot(mod, multidim = T, zlab = "test2", col = "lightblue", theta=20)
